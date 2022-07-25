@@ -131,8 +131,7 @@ function isTriangle(a, b, c) {
  */
 function doRectanglesOverlap(rect1, rect2) {
   return (
-    (rect1.top + rect1.height > rect2.top
-    && rect1.left + rect1.width > rect2.left)
+    rect1.top + rect1.height > rect2.top && rect1.left + rect1.width > rect2.left
   );
 }
 
@@ -163,7 +162,9 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  const dist = Math.sqrt((point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2);
+  const dist = Math.sqrt(
+    // eslint-disable-next-line function-paren-newline
+    (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2);
   return circle.radius > dist;
 }
 
@@ -212,8 +213,8 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
   if (a > b) {
     return getIntervalString(b, a, isEndIncluded, isStartIncluded);
   }
-  const one = (isStartIncluded) ? '[' : '(';
-  const four = (isEndIncluded) ? ']' : ')';
+  const one = isStartIncluded ? '[' : '(';
+  const four = isEndIncluded ? ']' : ')';
   return `${one}${a}, ${b}${four}`;
 }
 
@@ -279,10 +280,10 @@ function isCreditCardNumber(ccn) {
     let n = parseInt(arr[i], 10);
 
     // eslint-disable-next-line no-bitwise, no-cond-assign
-    checksum += (isOdd | 0) === (i % 2) && (n *= 2) > 9 ? (n - 9) : n;
+    checksum += (isOdd | 0) === i % 2 && (n *= 2) > 9 ? n - 9 : n;
   }
 
-  return Boolean((checksum % 10) === 0);
+  return Boolean(checksum % 10 === 0);
 }
 
 /**
@@ -330,7 +331,9 @@ function isBracketsBalanced(str) {
   const arrBrackets = brackets.split(',');
   for (let i = 0; i <= str.length / 2; i += 1) {
     // eslint-disable-next-line no-loop-func
-    arrBrackets.forEach((x) => { result = result.replace(x, ''); });
+    arrBrackets.forEach((x) => {
+      result = result.replace(x, '');
+    });
   }
   return result.length === 0;
 }
@@ -355,8 +358,8 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -371,8 +374,15 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  for (let i = 0; i < pathes[0].length; i += 1) {
+    const temp = pathes[0][i];
+    if (!pathes.every((x) => x[i] === temp)) {
+      const index = pathes[0].slice(0, i).lastIndexOf('/');
+      return pathes[0].slice(0, index + 1);
+    }
+  }
+  return false;
 }
 
 /**
